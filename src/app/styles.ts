@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import { Nunito_Sans } from "next/font/google";
 
-import Bg from '../../public/bg.jpg'
-
 const nunitoSans = Nunito_Sans({
     subsets: ["latin"],
     weight: ["400", "700"],
@@ -10,6 +8,8 @@ const nunitoSans = Nunito_Sans({
 });
 
 export const Container = styled.div`
+    position: relative;
+
     width: 100%;
     height: auto;
 
@@ -22,7 +22,7 @@ export const Container = styled.div`
 export const Header = styled.div`
     width: 100%;
     height: 5rem;
-    padding: 1rem;
+    padding: 1rem 1rem 1rem 7rem;
 
     display: flex;
 
@@ -36,12 +36,8 @@ export const Wrapper = styled.div`
     display: flex;
     justify-content: center;
 
-    background-size: cover;         
-    background-position: center;    
-    background-repeat: no-repeat;    
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-    url(${Bg.src}); 
-
+    background-image: linear-gradient(rgb(0 0 0 / 50%), rgb(0 25 101));
+    
     @media (max-width: 769px) {
         height: auto;
         padding-top: 2rem;
@@ -79,18 +75,39 @@ export const ContainerForm = styled.div`
 `
 
 export const Description = styled.div`
-    width: 450px;
+    width: 500px;
     height: 560px;
+    padding-top: 2rem;
 
+    gap: 1rem;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
 
-    border-radius: 1rem;
-    backdrop-filter: blur(4px); 
     background-color: transparent;
 
-    color: #FFFFFF;
+    >span{
+      color: #4bff4a;
+      font-weight: bold;
+      font-size: 20px;
+      line-height: 1.625rem;
+      font-family: ${nunitoSans.style.fontFamily}, sans-serif;
+    }
+
+    >h1{
+      color: #FFFFFF;
+      font-weight: bold;
+      font-size: 48px;
+      line-height: normal;
+      font-family: ${nunitoSans.style.fontFamily}, sans-serif;
+    }
+
+    >p{
+      color: #FFFFFF;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 1.625rem;
+      font-family: ${nunitoSans.style.fontFamily}, sans-serif;
+    }
 `;
 
 export const Form = styled.div`

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import {
+  Box,
   Snackbar,
   Alert,
   Button,
@@ -24,10 +25,10 @@ export default function Home() {
     const value = e.target.value;
 
     const formattedNameValue = value
-      .replace(/[^a-zA-ZÀ-ÿ\s]/g, '') 
-      .replace(/^\s+/, '') 
-      .replace(/\s{2,}/g, ' ') 
-      .replace(/^(.{0,2})\s+/g, '$1'); 
+      .replace(/[^a-zA-ZÀ-ÿ\s]/g, '')
+      .replace(/^\s+/, '')
+      .replace(/\s{2,}/g, ' ')
+      .replace(/^(.{0,2})\s+/g, '$1');
 
     setNome(formattedNameValue);
 
@@ -96,14 +97,14 @@ export default function Home() {
     const trimmedNome = nome.trimEnd();
 
     setNome(trimmedNome);
-  
+
     if (validateFields()) {
       setShowAlert(true);
 
-      console.log({ 
-        nome: trimmedNome, 
-        email, 
-        whatsapp 
+      console.log({
+        nome: trimmedNome,
+        email,
+        whatsapp
       });
     }
   };
@@ -113,15 +114,37 @@ export default function Home() {
   };
 
   return (
-    <S.Container>
-      <S.Header>
+    <S.Container>  
+      <Box
+        component="video"
+        src="/video/bg-video.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: -1,
+        }}
+      />
+      
+     <S.Header>
         <img src="/logo-fds-docs.svg" alt="Logo FDS Docs" />
-      </S.Header>
+      </S.Header> 
 
       <S.Wrapper>
         <S.ContainerForm>
           <S.Description>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo expedita at aspernatur blanditiis, provident asperiores, esse ipsam commodi voluptas officia neque odio. Recusandae vitae nesciunt at eligendi quos ad architecto.</p>
+            <span>Download Our Free Guide:</span>
+
+            <h1>Maximize Efficiency with Smart Software Solutions</h1>
+
+            <p>Discover how our state-of-the-art software can revolutionize your business.</p>
           </S.Description>
 
 
@@ -188,7 +211,7 @@ export default function Home() {
             Sua inscrição foi realizada com sucesso.
           </Alert>
         </Snackbar>
-      </S.Wrapper>
+      </S.Wrapper> 
     </S.Container>
   );
 }
