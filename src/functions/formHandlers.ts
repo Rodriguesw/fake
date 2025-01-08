@@ -22,18 +22,23 @@ export const handleNameChange = (
 
 
 export const handleEmailChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   setEmail: React.Dispatch<React.SetStateAction<string>>,
   setErrors: React.Dispatch<React.SetStateAction<{ nome: string; email: string; whatsapp: string }>>
 ) => {
   const value = e.target.value.replace(/\s+/g, '');
-
+  
   setEmail(value);
 
-  if (/^[\w-.]+@([\w-]+\.)+[\w-]{3,4}$/.test(value)) {
+  // Expressão regular para aceitar os e-mails especificados
+  if (/^[\w.-]+@[a-zA-Z0-9.-]+\.(com|net|org|br|org\.br|com\.br)$/.test(value)) {
     setErrors((prev) => ({ ...prev, email: '' }));
+  } else {
+    setErrors((prev) => ({ ...prev, email: 'Insira um e-mail válido.' }));
   }
 };
+
+
 
 export const handleWhatsappChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
