@@ -30,7 +30,6 @@ export const handleEmailChange = (
   
   setEmail(value);
 
-  // Expressão regular para aceitar os e-mails especificados
   if (/^[\w.-]+@[a-zA-Z0-9.-]+\.(com|net|org|br|org\.br|com\.br)$/.test(value)) {
     setErrors((prev) => ({ ...prev, email: '' }));
   } else {
@@ -66,30 +65,30 @@ export const handleWhatsappChange = (
 };
 
 export const validateFields = (
-    nome: string,
-    email: string,
-    whatsapp: string,
-    setErrors: React.Dispatch<React.SetStateAction<{ nome: string; email: string; whatsapp: string }>>
-  ) => {
-    const newErrors = { nome: '', email: '', whatsapp: '' };
-  
-    if (!nome.trim()) {
-      newErrors.nome = 'O nome é obrigatório.';
-    } else if (nome.trim().length < 3) {
-      newErrors.nome = 'O nome completo deve ter pelo menos 3 caracteres.';
-    }
-  
-    if (!email.trim()) {
-      newErrors.email = 'O e-mail é obrigatório.';
-    } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{3,4}$/.test(email)) {
-      newErrors.email = 'Insira um e-mail válido.';
-    }
-  
-    if (whatsapp && whatsapp.length < 13) {
-      newErrors.whatsapp = 'Insira um número de WhatsApp válido.';
-    }
-  
-    setErrors(newErrors);
-  
-    return !newErrors.nome && !newErrors.email && !newErrors.whatsapp;
-  };
+  nome: string,
+  email: string,
+  whatsapp: string,
+  setErrors: React.Dispatch<React.SetStateAction<{ nome: string; email: string; whatsapp: string }>>
+) => {
+  const newErrors = { nome: '', email: '', whatsapp: '' };
+
+  if (!nome.trim()) {
+    newErrors.nome = 'O nome é obrigatório.';
+  } else if (nome.trim().length < 3) {
+    newErrors.nome = 'O nome completo deve ter pelo menos 3 caracteres.';
+  }
+
+  if (!email.trim()) {
+    newErrors.email = 'O e-mail é obrigatório.';
+  } else if (!/^[\w.-]+@[a-zA-Z0-9.-]+\.(com|net|org|br|org\.br|com\.br)$/.test(email)) {
+    newErrors.email = 'Insira um e-mail válido.';
+  }
+
+  if (whatsapp && whatsapp.length < 13) {
+    newErrors.whatsapp = 'Insira um número de WhatsApp válido.';
+  }
+
+  setErrors(newErrors);
+
+  return !newErrors.nome && !newErrors.email && !newErrors.whatsapp;
+};
