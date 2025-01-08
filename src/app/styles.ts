@@ -36,7 +36,7 @@ export const Wrapper = styled.div`
     display: flex;
     justify-content: center;
 
-    background-image: linear-gradient(rgb(0 0 0 / 50%), rgb(0 25 101));
+    background-image: linear-gradient(rgb(59 59 59 / 10%), rgb(0 15 65));
     
     @media (max-width: 769px) {
         height: auto;
@@ -67,6 +67,8 @@ export const ContainerForm = styled.div`
     @media (max-width: 769px) {
         width: 100%;
         padding: 2rem;
+
+        flex-direction: column;
     }
 
     @media (max-width: 479px) {
@@ -75,9 +77,10 @@ export const ContainerForm = styled.div`
 `
 
 export const Description = styled.div`
-    width: 500px;
-    height: 560px;
-    padding-top: 2rem;
+     width: 100%;
+     height: 560px;
+     max-width: 500px;
+     padding-top: 2rem;
 
     gap: 1rem;
     display: flex;
@@ -107,6 +110,11 @@ export const Description = styled.div`
       font-size: 20px;
       line-height: 1.625rem;
       font-family: ${nunitoSans.style.fontFamily}, sans-serif;
+    }
+
+    @media (max-width: 769px) {
+      height: auto;
+      max-width: 100%;
     }
 `;
 

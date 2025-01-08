@@ -1,120 +1,40 @@
-"use client"
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Box,
-  Snackbar,
-  Alert,
   Button,
   TextField,
-} from '@mui/material';
+  Modal,
+  Typography,
+} from "@mui/material";
 
-import * as I from '@mui/icons-material';
+import { handleNameChange, handleEmailChange, handleWhatsappChange, validateFields } from "../functions/formHandlers";
 
-import * as S from './styles';
+import * as S from "./styles";
 
 export default function Home() {
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
-  const [whatsapp, setWhatsapp] = useState('');
-  const [errors, setErrors] = useState({ nome: '', email: '', whatsapp: '' });
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
+  const [errors, setErrors] = useState({ nome: "", email: "", whatsapp: "" });
 
-  const [showAlert, setShowAlert] = useState(false);
-
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-
-    const formattedNameValue = value
-      .replace(/[^a-zA-ZÀ-ÿ\s]/g, '')
-      .replace(/^\s+/, '')
-      .replace(/\s{2,}/g, ' ')
-      .replace(/^(.{0,2})\s+/g, '$1');
-
-    setNome(formattedNameValue);
-
-    if (formattedNameValue.trim().length >= 3) {
-      setErrors((prev) => ({ ...prev, nome: '' }));
-    }
-  };
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\s+/g, '');
-
-    setEmail(value);
-
-    if (/^[\w-.]+@([\w-]+\.)+[\w-]{3,4}$/.test(value)) {
-      setErrors((prev) => ({ ...prev, email: '' }));
-    }
-  };
-
-  const handleWhatsappChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\D/g, '');
-
-    let formattedWhatsappValue = '';
-
-    if (value.length <= 2) {
-      formattedWhatsappValue = `${value}`;
-    } else if (value.length <= 6) {
-      formattedWhatsappValue = `(${value.slice(0, 2)})${value.slice(2)}`;
-    } else if (value.length <= 10) {
-      formattedWhatsappValue = `(${value.slice(0, 2)})${value.slice(2, 6)}-${value.slice(6)}`;
-    } else {
-      formattedWhatsappValue = `(${value.slice(0, 2)})${value.slice(2, 7)}-${value.slice(7, 11)}`;
-    }
-
-    setWhatsapp(formattedWhatsappValue);
-
-    if (formattedWhatsappValue.length === 13 || formattedWhatsappValue.length === 14) {
-      setErrors((prev) => ({ ...prev, whatsapp: '' }));
-    }
-  };
-
-  const validateFields = () => {
-    const newErrors = { nome: '', email: '', whatsapp: '' };
-
-    if (!nome.trim()) {
-      newErrors.nome = 'O nome é obrigatório.';
-    } else if (nome.trim().length < 3) {
-      newErrors.nome = 'O nome completo deve ter pelo menos 3 caracteres.';
-    }
-
-    if (!email.trim()) {
-      newErrors.email = 'O e-mail é obrigatório.';
-    } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{3,4}$/.test(email)) {
-      newErrors.email = 'Insira um e-mail válido.';
-    }
-
-    if (whatsapp && whatsapp.length < 13) {
-      newErrors.whatsapp = 'Insira um número de WhatsApp válido.';
-    }
-
-    setErrors(newErrors);
-
-    return !newErrors.nome && !newErrors.email && !newErrors.whatsapp;
-  };
+  const [showModal, setShowModal] = useState(false);
 
   const handleButtonClick = () => {
     const trimmedNome = nome.trimEnd();
-
     setNome(trimmedNome);
 
-    if (validateFields()) {
-      setShowAlert(true);
-
-      console.log({
-        nome: trimmedNome,
-        email,
-        whatsapp
-      });
+    if (validateFields(nome, email, whatsapp, setErrors)) {
+      setShowModal(true);
+      console.log({ nome: trimmedNome, email, whatsapp });
     }
   };
 
-  const handleClose = () => {
-    setShowAlert(false);
-  };
+  const handleClose = () => setShowModal(false);
 
   return (
-    <S.Container>  
+    <S.Container>
       <Box
         component="video"
         src="/video/bg-video.mp4"
@@ -123,19 +43,19 @@ export default function Home() {
         muted
         playsInline
         sx={{
-          position: 'absolute',
+          position: "absolute",
           top: 0,
           left: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
           zIndex: -1,
         }}
       />
-      
-     <S.Header>
+
+      <S.Header>
         <img src="/logo-fds-docs.svg" alt="Logo FDS Docs" />
-      </S.Header> 
+      </S.Header>
 
       <S.Wrapper>
         <S.ContainerForm>
@@ -147,13 +67,12 @@ export default function Home() {
             <p>Discover how our state-of-the-art software can revolutionize your business.</p>
           </S.Description>
 
-
           <S.Form>
             <h2>Seja bem-vindo(a)!</h2>
 
             <S.FormDescription>
               <p>Quer ser um dos primeiros a conhecer nosso novo sistema de emissão e gerenciamento de documentos de segurança?</p>
-
+            
               <p>Inscreva-se e fique por dentro!</p>
             </S.FormDescription>
 
@@ -162,7 +81,7 @@ export default function Home() {
               label="Nome Completo"
               variant="outlined"
               value={nome}
-              onChange={handleNameChange}
+              onChange={(e) => handleNameChange(e, setNome, setErrors)}
               error={!!errors.nome}
               helperText={errors.nome}
             />
@@ -172,7 +91,7 @@ export default function Home() {
               label="E-mail"
               variant="outlined"
               value={email}
-              onChange={handleEmailChange}
+              onChange={(e) => handleEmailChange(e, setEmail, setErrors)}
               error={!!errors.email}
               helperText={errors.email}
             />
@@ -182,36 +101,57 @@ export default function Home() {
               label="WhatsApp (Opcional)"
               variant="outlined"
               value={whatsapp}
-              onChange={handleWhatsappChange}
+              onChange={(e) => handleWhatsappChange(e, setWhatsapp, setErrors)}
               error={!!errors.whatsapp}
               helperText={errors.whatsapp}
             />
 
-            <Button
-              variant="contained"
-              onClick={handleButtonClick}
-            >
+            <Button variant="contained" onClick={handleButtonClick}>
               Inscrever-se
             </Button>
           </S.Form>
         </S.ContainerForm>
 
-        <Snackbar
-          open={showAlert}
-          autoHideDuration={4000}
+
+        <Modal
+          open={showModal}
           onClose={handleClose}
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          aria-labelledby="success-modal-title"
+          aria-describedby="success-modal-description"
         >
-          <Alert
-            onClose={handleClose}
-            severity="success"
-            sx={{ width: '100%' }}
-            icon={<I.Check fontSize="inherit" />}
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 400,
+              bgcolor: "background.paper",
+              border: "2px solid #000",
+              boxShadow: 24,
+              p: 4,
+              textAlign: "center",
+            }}
           >
-            Sua inscrição foi realizada com sucesso.
-          </Alert>
-        </Snackbar>
-      </S.Wrapper> 
+            <Typography
+              id="success-modal-title"
+              variant="h6"
+              component="h2"
+              sx={{ marginBottom: 2 }}
+            >
+              Inscrição realizada com sucesso!
+            </Typography>
+
+            <Typography id="success-modal-description" sx={{ mb: 3 }}>
+              Obrigado por se inscrever. Entraremos em contato em breve!
+            </Typography>
+
+            <Button variant="contained" onClick={handleClose}>
+              Fechar
+            </Button>
+          </Box>
+        </Modal>
+      </S.Wrapper>
     </S.Container>
   );
 }
